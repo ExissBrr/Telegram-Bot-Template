@@ -1,14 +1,22 @@
 import os
 from typing import List
 
-import pyqiwi
+import pytz
 from dotenv import load_dotenv
 
 load_dotenv()
 
 TOKEN_BOT: str = os.getenv("TOKEN_BOT")
-TOKEN_QIWI: str = os.getenv("TOKEN_QIWI")
-
 ADMINS_ID: List[int] = list(map(int, (os.getenv("ADMINS_ID").split())))
 
-QIWI_WALLET = pyqiwi.Wallet(token=TOKEN_QIWI)
+PG_USER: str = os.getenv('PG_USER')
+PG_PASS: str = os.getenv('PG_PASS')
+DATABASE: str = os.getenv('DATABASE')
+IP: str = os.getenv("IP")
+
+PG_URL = f'postgresql://{PG_USER}:{PG_PASS}@{IP}/{DATABASE}'
+
+TIME_MUTE = 20
+DEFAULT_RATE_LIMIT = 1
+
+TIMEZONE = pytz.timezone('Europe/Moscow')
