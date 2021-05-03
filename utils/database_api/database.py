@@ -32,6 +32,7 @@ class BaseModel(DATABASE.Model):
         :return:
         """
         await self.update(**kwargs).apply()
+        logger.success(f"{self.__tablename__} (id: {self.id}) set new param {kwargs}")
 
 
 class TimedBaseModel(BaseModel):

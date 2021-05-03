@@ -1,5 +1,6 @@
 from loguru import logger
 
+
 logger.add(
     "info.log",
     format="{time} {level} {message}",
