@@ -2,6 +2,8 @@ from typing import Union
 
 from aiogram import types
 
+from exeptions.data import FailedGetUserId
+
 
 def get_user_id(data: Union[str, int, types.Message, types.CallbackQuery]):
     """
@@ -20,3 +22,6 @@ def get_user_id(data: Union[str, int, types.Message, types.CallbackQuery]):
 
     if isinstance(data, types.CallbackQuery):
         return data.message.chat.id
+
+    raise FailedGetUserId(data)
+

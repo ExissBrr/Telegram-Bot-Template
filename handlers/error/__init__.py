@@ -1,1 +1,3 @@
-from loader import DP
+from .bot import DP
+
+__all__ = ["DP"]
