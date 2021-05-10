@@ -2,7 +2,7 @@ from loguru import logger
 
 
 logger.add(
-    "info.log",
+    sink="logs/info.log",
     format="{time} {level} {message}",
     level="INFO",
     rotation="10 MB",
@@ -10,7 +10,7 @@ logger.add(
 )
 
 logger.add(
-    "error.log",
+    sink="logs/error.log",
     format="{time} {level} {message}",
     level="ERROR",
     rotation="10 MB",
@@ -18,7 +18,7 @@ logger.add(
 )
 
 logger.add(
-    "debug.log",
+    sink="logs/debug.log",
     format="{time} {level} {message}",
     level="DEBUG",
     rotation="10 MB",
@@ -26,7 +26,7 @@ logger.add(
 )
 
 logger.add(
-    "success.log",
+    sink="logs/success.log",
     format="{time} {level} {message}",
     level="SUCCESS",
     rotation="10 MB",

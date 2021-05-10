@@ -78,7 +78,7 @@ class DBCommandsUser:
         user = User(**kwargs)
         try:
             await user.create()
-            logger.info(f"Created new user {kwargs}")
+            logger.success(f"Created new user {kwargs}")
             return user
         except Exception as err:
             logger.error(f"Failed to create new user {kwargs}. Error: {err}")
