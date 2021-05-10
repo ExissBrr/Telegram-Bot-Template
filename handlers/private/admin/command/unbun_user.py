@@ -3,6 +3,7 @@ from aiogram.dispatcher.filters import Command
 from loguru import logger
 
 from filters.user import Admin
+from keyboards import reply
 from loader import DP
 from utils.database_api.schemes.user import UserRankType, DBCommandsUser
 from utils.parse_data.user import get_user_id
@@ -24,9 +25,14 @@ async def block_user(message: types.Message):
 
     user = await DBCommandsUser.get_user(id=user_id)
 
-    if user.is_blocked:
+    if not user.is_blocked:
         await message.answer("Пользователь итак разблокирован")
         return False
 
-    await user.update_rank(UserRankType.BLOCKED)
-    await message.answer("Пользователь заблокирован")
+    await user.update_rank(UserRankType.DEFAULT)
+    await message.answer("Пользователь разблокирован")
+    await DP.bot.send_message(
+        chat_id=user.id,
+        text="С вас сняты ограничения",
+        reply_markup=reply.default.start.keyboard
+    )

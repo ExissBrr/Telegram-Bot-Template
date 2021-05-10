@@ -33,16 +33,17 @@ class User(TimedBaseModel):
     @property
     def is_blocked(self) -> bool:
         """Возвращает статус блокировки пользователя"""
-        return self.rank is UserRankType.BLOCKED
+        logger.debug(f"{self.rank == UserRankType.BLOCKED}")
+        return self.rank == UserRankType.BLOCKED
 
     @property
     def is_active(self) -> bool:
         """Возвращает статус активности пользователя"""
-        return self.rank is not UserRankType.PASSIVE
+        return self.rank == UserRankType.PASSIVE
 
     @property
     def is_admin(self) -> bool:
-        return self.rank is UserRankType.ADMIN
+        return self.rank == UserRankType.ADMIN
 
     async def update_rank(self, new_rank: str) -> str:
         """
@@ -50,7 +51,7 @@ class User(TimedBaseModel):
         :warning: Используйте class UserRankType для установки уровня
         :param new_rank: Новый статус пользователя, на который нужно заменить
         """
-        await self.update(rank=new_rank)
+        await self.update_data(rank=new_rank)
         return new_rank
 
     async def update_report_block(self, text: str) -> str:
@@ -58,7 +59,7 @@ class User(TimedBaseModel):
         Обновляет причину блокировки пользователя
         :param text: Текст причины блокировки
         """
-        await self.update(report_block=text)
+        await self.update_data(report_block=text)
         return text
 
 

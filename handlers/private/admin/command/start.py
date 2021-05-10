@@ -9,7 +9,7 @@ from utils.database_api.schemes.user import DBCommandsUser, UserRankType
 from utils.misc import rate_limit
 
 
-@DP.message_handler(CommandStart(), Admin(), NewUser())
+@DP.message_handler(NewUser(), Admin(), CommandStart())
 async def add_admin_in_db(message: types.Message):
     """Добавление админа в базу данных"""
     await DBCommandsUser.add_user(

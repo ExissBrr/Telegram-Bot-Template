@@ -23,7 +23,8 @@ async def add_user_in_db(message: types.Message):
     await message.answer(
         text_template.default.welcome.format(
             user_full_name=message.from_user.full_name
-        )
+        ),
+        reply_markup=reply.default.start.keyboard
     )
 
 @rate_limit(2)
@@ -33,5 +34,5 @@ async def on_message(message: types.Message):
     bot = await message.bot.get_me()
     await message.answer(
         f"Вы уже зарегистрированы в боте @{bot.username}",
-        reply=reply.default.start.keyboard
+        reply_markup=reply.default.start.keyboard
     )

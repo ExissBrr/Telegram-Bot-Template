@@ -12,7 +12,7 @@ def main():
     import middlewares
     import utils
 
-    __all__ = ["handlers", "middlewares", "utils",]
+    __all__ = ["handlers", "middlewares", "utils"]
 
     executor.start_polling(handlers.DP, on_startup=on_startup, on_shutdown=on_shutdown)
 

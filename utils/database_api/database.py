@@ -25,7 +25,7 @@ class BaseModel(DATABASE.Model):
 
     query: Select
 
-    async def update(self, **kwargs) -> object:
+    async def update_data(self, **kwargs) -> object:
         """
         Обновляет данные полей таблицы в базе данных
         :param kwargs: Поля в таблице и новое значение
