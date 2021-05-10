@@ -5,6 +5,14 @@ from sqlalchemy.sql.elements import and_, or_
 
 from utils.database_api.database import TimedBaseModel
 
+class UserRankType:
+    """Типы привилегий пользователей"""
+
+    BLOCKED = "Заблокирован"
+    PASSIVE = "Неактивен"
+    DEFAULT = "Стандартный"
+    ADMIN = "Администратор"
+
 
 class User(TimedBaseModel):
     """
@@ -15,33 +23,30 @@ class User(TimedBaseModel):
     id: int = Column(BigInteger, primary_key=True)
     full_name: str = Column(String(200))
     username: str = Column(String(100))
-
-    status_blocked: bool = Column(Boolean, default=False)
-    status_active: bool = Column(Boolean, default=True)
+    rank: str = Column(String(20), default=UserRankType.DEFAULT)
 
     @property
     def is_blocked(self) -> bool:
         """Возвращает статус блокировки пользователя"""
-        return self.status_blocked
+        return self.rank is UserRankType.BLOCKED
 
     @property
     def is_active(self) -> bool:
         """Возвращает статус активности пользователя"""
-        return self.status_active
+        return self.rank is not UserRankType.PASSIVE
 
-    async def update_status_blocked(self, new_status: bool):
-        """
-        Обновляет статус блокировки у пользователя
-        :param new_status: Новый статус пользователя, на который нужно заменить
-        """
-        await self.update(status_blocked=new_status)
+    @property
+    def is_admin(self) -> bool:
+        return self.rank is UserRankType.ADMIN
 
-    async def update_status_active(self, new_status: bool):
+    async def update_rank(self, new_rank: str) -> str:
         """
-        Обновляет статус активности у пользователя
-        :param new_status: Новый статус пользователя, на который нужно заменить
+        Обновляет уровень привилегий у пользователя.
+        :warning: Используйте class UserRankType для установки уровня
+        :param new_rank: Новый статус пользователя, на который нужно заменить
         """
-        await self.update(status_active=new_status)
+        await self.update(rank=new_rank)
+        return new_rank
 
 
 class DBCommandsUser:

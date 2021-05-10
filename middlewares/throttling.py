@@ -8,12 +8,12 @@ from aiogram.utils.exceptions import Throttled
 from loguru import logger
 
 from data import text_template
-from data.config import TIMEZONE, TIME_MUTE, DEFAULT_RATE_LIMIT
+from data.config import TIMEZONE, TIME_MUTE
 
 
 class ThrottlingMiddleware(BaseMiddleware):
 
-    def __init__(self, limit: float = DEFAULT_RATE_LIMIT, key_prefix: str = "antiflood_"):
+    def __init__(self, limit: float = 0, key_prefix: str = "antiflood_"):
         self.rate_limit = limit
         self.prefix = key_prefix
         super(ThrottlingMiddleware, self).__init__()
@@ -29,18 +29,18 @@ class ThrottlingMiddleware(BaseMiddleware):
             key = f"{self.key}_message"
         try:
             await dispatcher.throttle(key, rate=limit)
-
         except Throttled as throttled:
             await self.message_throttled(message, throttled)
-            raise CancelHandler()
 
     async def message_throttled(self, message: types.Message, throttled: Throttled):
-        time_mute = TIMEZONE.localize(dt.datetime.utcnow())+dt.timedelta(seconds=TIME_MUTE)
-        if throttled.exceeded_count == 2:
+
+        if 4 <= throttled.exceeded_count <= 7:
             await message.answer(text_template.default.warning_rate_limit)
-        elif throttled.exceeded_count == 3:
+            return True
+        elif throttled.exceeded_count == 8:
             await message.answer(
-                text_template.default.mute.format(
-                    time_mute=time_mute.strftime("%Y/%m/%d %H:%M:%S")
-                )
+                text=text_template.default.mute
             )
+            raise CancelHandler()
+        elif throttled.exceeded_count > 8:
+            raise CancelHandler()

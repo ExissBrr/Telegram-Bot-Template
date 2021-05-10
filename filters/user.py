@@ -8,7 +8,7 @@ from utils.database_api.schemes.user import DBCommandsUser
 from utils.misc.get_user_id import get_user_id
 
 
-class IsAdmin(BoundFilter):
+class Admin(BoundFilter):
     """Фильтр на админа"""
 
     async def check(self, event: Union[types.Message, types.CallbackQuery]):
@@ -16,7 +16,7 @@ class IsAdmin(BoundFilter):
         return user_id in ADMINS_ID
 
 
-class IsNotAdmin(BoundFilter):
+class NotAdmin(BoundFilter):
     """Фильтр на админа"""
 
     async def check(self, event: Union[types.Message, types.CallbackQuery]):
@@ -24,14 +24,14 @@ class IsNotAdmin(BoundFilter):
         return not(user_id in ADMINS_ID)
 
 
-class IsNewUser(BoundFilter):
+class NewUser(BoundFilter):
 
     async def check(self, event: Union[types.Message, types.CallbackQuery]):
         user_id = get_user_id(event)
         return not(await DBCommandsUser.is_user(id=user_id))
 
 
-class IsNotNewUser(BoundFilter):
+class NotNewUser(BoundFilter):
 
     async def check(self, event: Union[types.Message, types.CallbackQuery]):
         user_id = get_user_id(event)

@@ -1,7 +1,5 @@
-from data.config import DEFAULT_RATE_LIMIT
 
-
-def rate_limit(limit: float = DEFAULT_RATE_LIMIT, key: str = "None"):
+def rate_limit(limit: float, key: str = "default"):
     """
     Декоратор для конфигурации ограничителя лимита и ключа функции
     :param limit: Лимит времени, который должен пройти,

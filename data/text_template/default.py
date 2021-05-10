@@ -9,3 +9,6 @@ with open("data/text_template/default/warning_rate_limit.txt", encoding="UTF-8")
 
 with open("data/text_template/default/mute.txt", encoding="UTF-8") as file:
     mute = file.read()
+
+with open("data/text_template/default/info.txt", encoding="UTF-8") as file:
+    info = file.read()

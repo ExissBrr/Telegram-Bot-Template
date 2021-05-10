@@ -18,7 +18,7 @@ async def on_startup(dispatcher: Dispatcher):
     await database.connect()
 
     # TODO: При коммите комментировать! Иначе все данные в таблицах сотрутся
-    # await database.drop_tables()
+    await database.drop_tables()
 
     # Создание таблиц
     await database.create_tables()
