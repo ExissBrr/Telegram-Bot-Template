@@ -1,0 +1,13 @@
+⛔Внимание⛔
+Вы были заблокированы на нашем сервисе.
+Бот: @{bot_username}
+
+Имя вашего аккаунта: {user_username}
+Ваше имя: {user_full_name}
+Ваш id: {user_id}
+
+Время блокировки.
+{blocking_time}
+
+Причина.
+{report_block}

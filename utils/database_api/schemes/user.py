@@ -1,3 +1,5 @@
+from typing import List
+
 import loguru
 from loguru import logger
 from sqlalchemy import Column, BigInteger, String, Boolean
@@ -22,8 +24,11 @@ class User(TimedBaseModel):
 
     id: int = Column(BigInteger, primary_key=True)
     full_name: str = Column(String(200))
-    username: str = Column(String(100))
+    username: str = Column(String(100), default='-')
+
     rank: str = Column(String(20), default=UserRankType.DEFAULT)
+
+    report_block: str = Column(String(200), default="Не указано")
 
     @property
     def is_blocked(self) -> bool:
@@ -48,6 +53,14 @@ class User(TimedBaseModel):
         await self.update(rank=new_rank)
         return new_rank
 
+    async def update_report_block(self, text: str) -> str:
+        """
+        Обновляет причину блокировки пользователя
+        :param text: Текст причины блокировки
+        """
+        await self.update(report_block=text)
+        return text
+
 
 class DBCommandsUser:
 
@@ -65,34 +78,38 @@ class DBCommandsUser:
         user = User(**kwargs)
         try:
             await user.create()
-            logger.success(f"Created new user {kwargs}")
+            logger.info(f"Created new user {kwargs}")
             return user
         except Exception as err:
             logger.error(f"Failed to create new user {kwargs}. Error: {err}")
 
     @staticmethod
     @logger.catch
-    async def is_user(**kwargs):
-        user = await User.query.where(make_filter(**kwargs)).gino.first()
+    async def is_user(**kwargs) -> bool:
+        """Есть ли пользователя в базе данных"""
+        user = await DBCommandsUser.get_user(**kwargs)
         return bool(user)
 
     @staticmethod
     @logger.catch
-    async def get_user(**kwargs):
+    async def get_user(**kwargs) -> User:
+        """Получает пользователя из таблицы"""
         user = await User.query.where(make_filter(**kwargs)).gino.first()
-        logger.success(f"Retrieved user from database {kwargs}")
+        logger.info(f"Retrieved user from database {kwargs}")
         return user
 
     @staticmethod
     @logger.catch
-    async def get_users(**kwargs):
+    async def get_users(**kwargs) -> List[User]:
+        """Получает список из объектов пользователей"""
         users = await User.query.where(make_filter(**kwargs)).gino.all()
-        logger.success(f"Retrieved users from database {kwargs}")
+        logger.info(f"Retrieved users from database {kwargs}")
         return users
 
     @staticmethod
     @logger.catch
-    async def get_count_users(**kwargs):
+    async def get_count_users(**kwargs) -> int:
+        """Получает кол-во пользователей"""
         total = len(await DBCommandsUser.get_users(**kwargs))
         return total
 
@@ -100,25 +117,21 @@ class DBCommandsUser:
 def make_filter(
         operator: str = "AND",
         id: int = None,
-        status_blocked: bool = None,
-        status_active: bool = None
+        rank: str = None,
+
 ):
     """Формирует фильтр для запроса в таблицу
     :param operator: OR: или, ADN: и
     :param id: Уникальный id пользователя
-    :param status_blocked: Статус блокировки
-    :param status_active: Статус активности
+    :param rank: Уровень привилегий пользователя
     :return:
     """
     conditions = []
     if id is not None:
         conditions.append(User.id == id)
 
-    if status_blocked is not None:
-        conditions.append(User.status_blocked == status_blocked)
-
-    if status_active is not None:
-        conditions.append(User.status_active == status_active)
+    if rank is not None:
+        conditions.append(User.rank == rank)
 
     if operator == "AND":
         return and_(*conditions)

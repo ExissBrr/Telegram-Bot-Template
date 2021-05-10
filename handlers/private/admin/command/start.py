@@ -20,7 +20,7 @@ async def add_admin_in_db(message: types.Message):
     )
     await message.answer(
         text_template.admin.welcome,
-        reply=reply.admin.start.keyboard
+        reply_markup=reply.admin.start.keyboard
     )
 
 
@@ -29,5 +29,5 @@ async def on_message(message: types.Message):
     """Выдача клавиатуры администратору"""
     await message.answer(
         "Вы уже зарегистрированы.",
-        reply=reply.admin.start.keyboard
+        reply_markup=reply.admin.start.keyboard
     )
