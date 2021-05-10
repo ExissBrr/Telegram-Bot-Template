@@ -33,7 +33,6 @@ class User(TimedBaseModel):
     @property
     def is_blocked(self) -> bool:
         """Возвращает статус блокировки пользователя"""
-        logger.debug(f"{self.rank == UserRankType.BLOCKED}")
         return self.rank == UserRankType.BLOCKED
 
     @property
