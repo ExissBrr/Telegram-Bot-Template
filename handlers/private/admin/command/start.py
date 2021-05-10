@@ -24,7 +24,6 @@ async def add_admin_in_db(message: types.Message):
     )
 
 
-
 @DP.message_handler(CommandStart(), Admin(), NotNewUser())
 async def on_message(message: types.Message):
     """Выдача клавиатуры администратору"""

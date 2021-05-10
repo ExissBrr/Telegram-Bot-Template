@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters import BoundFilter
 
 from data.config import ADMINS_ID
 from utils.database_api.schemes.user import DBCommandsUser
-from utils.misc.get_user_id import get_user_id
+from utils.parse_data.user import get_user_id
 
 
 class Admin(BoundFilter):

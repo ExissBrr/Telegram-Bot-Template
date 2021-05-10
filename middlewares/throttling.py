@@ -5,10 +5,8 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher.handler import current_handler, CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware
 from aiogram.utils.exceptions import Throttled
-from loguru import logger
 
 from data import text_template
-from data.config import TIMEZONE, TIME_MUTE
 
 
 class ThrottlingMiddleware(BaseMiddleware):
