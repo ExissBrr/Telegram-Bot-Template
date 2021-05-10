@@ -12,8 +12,13 @@ async def errors_logging(update: types.Update, exception):
     :param exception: Ошибка
     :return:
     """
-
-    logger.error(f"Error {exception}: {exception.match}.")
+    try:
+        logger.error(f"Error {exception}: {exception.match}.")
+    except AttributeError as err:
+        try:
+            logger.error(f"Error {exception}: {exception.text}.")
+        except AttributeError as err:
+            logger.error(f"Error {exception}.")
 
 
 

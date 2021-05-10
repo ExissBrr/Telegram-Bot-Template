@@ -2,6 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters import CommandStart
 
 from data import text_template
+from data.config import DEFAULT_RATE_LIMIT
 from filters.user import NewUser, NotNewUser
 from keyboards import reply
 from loader import DP
@@ -9,7 +10,7 @@ from utils.database_api.schemes.user import DBCommandsUser, UserRankType
 from utils.misc import rate_limit
 
 
-@rate_limit(2)
+@rate_limit(DEFAULT_RATE_LIMIT)
 @DP.message_handler(CommandStart(), NewUser())
 async def add_user_in_db(message: types.Message):
     """Добавление пользователя в базу данных."""

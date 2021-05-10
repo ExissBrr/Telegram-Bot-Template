@@ -16,6 +16,10 @@ IP: str = os.getenv("IP")
 
 PG_URL = f'postgresql://{PG_USER}:{PG_PASS}@{IP}/{DATABASE}'
 
-TIME_MUTE = 60  # В секундах
+# В секундах
+DEFAULT_RATE_LIMIT = 1.5
+
+# Глубина реферальной системы
+DEFAULT_LEVEL_REFERRAL_SYSTEM = 1
 
 TIMEZONE = pytz.timezone('Europe/Moscow')

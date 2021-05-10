@@ -1,6 +1,7 @@
 from aiogram import types
 
 from data import text_template
+from data.config import DEFAULT_RATE_LIMIT
 from filters.content_message import NotCommandStart
 from filters.user import NewUser, Blocked, NotNewUser, NotAdmin
 from loader import DP
@@ -24,7 +25,7 @@ async def notify_blocked(message: types.Message, user: User):
     )
 
 
-
+@rate_limit(DEFAULT_RATE_LIMIT)
 @DP.message_handler(NewUser(), NotCommandStart())
 async def notify_not_user_in_database(message: types.Message):
     """Уведомляет пользователя, что его нет в базе данных."""

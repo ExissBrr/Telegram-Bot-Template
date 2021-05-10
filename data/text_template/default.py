@@ -15,3 +15,6 @@ with open("data/text_template/default/info.txt", encoding="UTF-8") as file:
 
 with open("data/text_template/default/blocked.txt", encoding="UTF-8") as file:
     blocked = file.read()
+
+with open("data/text_template/default/settings.txt", encoding="UTF-8") as file:
+    settings = file.read()
