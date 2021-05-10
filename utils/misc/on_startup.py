@@ -2,9 +2,9 @@ from aiogram import Dispatcher
 from loguru import logger
 
 from utils.database_api import database
+from utils.database_api.schemes.user import UserRankType
 from utils.misc import set_bot_commands
-
-from utils.notify import admins
+from utils.notify import users
 
 
 async def on_startup(dispatcher: Dispatcher):
@@ -17,9 +17,6 @@ async def on_startup(dispatcher: Dispatcher):
     # Установка команд в боте.
     await set_bot_commands(dispatcher)
 
-    # Рассылка сообщений администраторам.
-    await admins.send_messages("Бот Включен!")
-
     # Подключение к базе данных.
     await database.connect()
 
@@ -28,4 +25,7 @@ async def on_startup(dispatcher: Dispatcher):
 
     # Создание таблиц.
     await database.create_tables()
+
+    # Рассылка сообщений администраторам.
+    await users.send_messages("Бот Включен!", rank=UserRankType.ADMIN)
 
