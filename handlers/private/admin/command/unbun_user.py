@@ -2,10 +2,10 @@ from aiogram import types
 from aiogram.dispatcher.filters import Command
 from loguru import logger
 
-from filters.user import Admin
+from filters.private.role_user import Admin
 from keyboards import reply
 from loader import DP
-from utils.database_api.schemes.user import UserRankType, DBCommandsUser
+from utils.database_api.models.user import UserRole, DBCommandsUser
 from utils.parse_data.user import get_user_id
 
 
@@ -29,7 +29,7 @@ async def block_user(message: types.Message):
         await message.answer("Пользователь итак разблокирован")
         return False
 
-    await user.update_rank(UserRankType.DEFAULT)
+    await user.update_rank(UserRole.DEFAULT)
     await message.answer("Пользователь разблокирован")
     await DP.bot.send_message(
         chat_id=user.id,

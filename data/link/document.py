@@ -4,4 +4,4 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TEMPLATE = os.getenv("VIDEO_TEMPLATE")
+TEMPLATE = os.getenv("DOCUMENT_TEMPLATE")

@@ -1,8 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher.filters import CommandHelp
 
-from data import text_template
-from filters.user import Admin
+from data import text
+from filters.private.role_user import Admin
 from keyboards import reply
 from loader import DP
 
@@ -11,6 +11,6 @@ from loader import DP
 async def send_help_menu(message: types.Message):
     """Отправка справочника пользователю"""
     await message.answer(
-        text=text_template.admin.help,
+        text=text.message.admin.command_help,
         reply_markup=reply.admin.start.keyboard
     )

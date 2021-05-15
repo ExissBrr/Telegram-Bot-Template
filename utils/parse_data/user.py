@@ -4,7 +4,7 @@ from aiogram import types
 
 from data.config import DEFAULT_LEVEL_REFERRAL_SYSTEM
 from exeptions.data import FailedGetUserId
-from utils.database_api.schemes.user import DBCommandsUser, User
+from utils.database_api.models.user import DBCommandsUser, User
 
 
 def get_user_id(data: Union[str, int, types.Message, types.CallbackQuery]):

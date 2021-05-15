@@ -2,9 +2,9 @@ from aiogram import types
 from aiogram.dispatcher.filters import Command
 from loguru import logger
 
-from filters.user import Admin
+from filters.private.role_user import Admin
 from loader import DP
-from utils.database_api.schemes.user import DBCommandsUser, UserRankType
+from utils.database_api.models.user import DBCommandsUser, UserRole
 from utils.parse_data.user import get_user_id
 
 
@@ -31,11 +31,11 @@ async def block_user(message: types.Message):
     if user.is_blocked:
         await message.answer("Пользователь уже находится в блокировке")
         return False
-    elif user.rank is UserRankType.ADMIN:
+    elif user.role is UserRole.ADMIN:
         await message.answer("Пользователей с правами Администратора блокировать нельзя")
         return False
 
-    await user.update_rank(UserRankType.BLOCKED)
+    await user.update_rank(UserRole.BLOCKED)
     await user.update_report_block(report)
 
     await message.answer("Пользователь заблокирован")

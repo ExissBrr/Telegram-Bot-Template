@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.middlewares import BaseMiddleware
 
-from utils.database_api.schemes.user import DBCommandsUser
+from utils.database_api.models.user import DBCommandsUser
 from utils.parse_data.user import get_user_id
 
 

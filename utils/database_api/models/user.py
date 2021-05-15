@@ -1,19 +1,19 @@
 from typing import List
 
-import loguru
 from loguru import logger
-from sqlalchemy import Column, BigInteger, String, Boolean
+from sqlalchemy import Column, BigInteger, String
 from sqlalchemy.sql.elements import and_, or_
 
 from utils.database_api.database import TimedBaseModel
 
-class UserRankType:
-    """Типы привилегий пользователей"""
 
-    BLOCKED = "Заблокирован"
-    PASSIVE = "Неактивен"
-    DEFAULT = "Стандартный"
-    ADMIN = "Администратор"
+class UserRole:
+    """Типы ролей пользователей"""
+
+    ADMIN = 1
+    DEFAULT = 2
+    PASSIVE = 3
+    BLOCKED = 4
 
 
 class User(TimedBaseModel):
@@ -26,32 +26,39 @@ class User(TimedBaseModel):
     full_name: str = Column(String(200))
     username: str = Column(String(100), default='-')
 
-    rank: str = Column(String(20), default=UserRankType.DEFAULT)
+    referral_id: int = Column(BigInteger, default=0)
+
+    role: str = Column(BigInteger, default=UserRole.DEFAULT)
 
     report_block: str = Column(String(200), default="Не указано")
 
     @property
     def is_blocked(self) -> bool:
         """Возвращает статус блокировки пользователя"""
-        return self.rank == UserRankType.BLOCKED
+        return self.role == UserRole.BLOCKED
 
     @property
     def is_active(self) -> bool:
         """Возвращает статус активности пользователя"""
-        return self.rank == UserRankType.PASSIVE
+        return self.role == UserRole.PASSIVE
 
     @property
     def is_admin(self) -> bool:
-        return self.rank == UserRankType.ADMIN
+        return self.role == UserRole.ADMIN
 
-    async def update_rank(self, new_rank: str) -> str:
+    @property
+    def is_referred(self) -> bool:
+        return bool(self.referral_id)
+
+
+    async def update_role(self, new_role: str) -> str:
         """
         Обновляет уровень привилегий у пользователя.
         :warning: Используйте class UserRankType для установки уровня
-        :param new_rank: Новый статус пользователя, на который нужно заменить
+        :param new_role: Новый статус пользователя, на который нужно заменить
         """
-        await self.update_data(rank=new_rank)
-        return new_rank
+        await self.update_data(role=new_role)
+        return new_role
 
     async def update_report_block(self, text: str) -> str:
         """
@@ -84,32 +91,28 @@ class DBCommandsUser:
             logger.error(f"Failed to create new user {kwargs}. Error: {err}")
 
     @staticmethod
-    @logger.catch
     async def is_user(**kwargs) -> bool:
         """Есть ли пользователя в базе данных"""
         user = await DBCommandsUser.get_user(**kwargs)
         return bool(user)
 
     @staticmethod
-    @logger.catch
     async def get_user(**kwargs) -> User:
-        """Получает пользователя из таблицы"""
+        """Возвращает пользователя из таблицы"""
         user = await User.query.where(make_filter(**kwargs)).gino.first()
         logger.info(f"Retrieved user from database {kwargs}")
         return user
 
     @staticmethod
-    @logger.catch
     async def get_users(**kwargs) -> List[User]:
-        """Получает список из объектов пользователей"""
+        """Возвращает список из объектов пользователей"""
         users = await User.query.where(make_filter(**kwargs)).gino.all()
         logger.info(f"Retrieved users from database {kwargs}")
         return users
 
     @staticmethod
-    @logger.catch
-    async def get_count_users(**kwargs) -> int:
-        """Получает кол-во пользователей"""
+    async def get_count(**kwargs) -> int:
+        """Возвращает кол-во пользователей"""
         total = len(await DBCommandsUser.get_users(**kwargs))
         return total
 
@@ -117,21 +120,43 @@ class DBCommandsUser:
 def make_filter(
         operator: str = "AND",
         id: int = None,
-        rank: str = None,
-
+        role: int = None,
+        full_name: str = None,
+        username: str = None,
+        report_block: str = None,
+        is_referred: int = None,
 ):
     """Формирует фильтр для запроса в таблицу
     :param operator: OR: или, ADN: и
     :param id: Уникальный id пользователя
-    :param rank: Уровень привилегий пользователя
+    :param role: Уровень привилегий пользователя
+    :param full_name:
+    :param username:
+    :param report_block:
+    :param is_referred:
     :return:
     """
     conditions = []
     if id is not None:
-        conditions.append(User.id == id)
+        conditions.append(User.id == int(id))
 
-    if rank is not None:
-        conditions.append(User.rank == rank)
+    if role is not None:
+        conditions.append(User.role == int(role))
+
+    if full_name is not None:
+        conditions.append(User.full_name == full_name)
+
+    if username is not None:
+        conditions.append(User.username == username)
+
+    if report_block is not None:
+        conditions.append(User.report_block)
+
+    if is_referred is not None:
+        if is_referred:
+            conditions.append(User.referral_id != 0)
+        else:
+            conditions.append(User.referral_id == 0)
 
     if operator == "AND":
         return and_(*conditions)

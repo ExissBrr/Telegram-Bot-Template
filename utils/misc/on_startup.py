@@ -2,7 +2,7 @@ from aiogram import Dispatcher
 from loguru import logger
 
 from utils.database_api import database
-from utils.database_api.schemes.user import UserRankType
+from utils.database_api.models.user import UserRole
 from utils.misc import set_bot_commands
 from utils.notify import users
 
@@ -21,11 +21,11 @@ async def on_startup(dispatcher: Dispatcher):
     await database.connect()
 
     # TODO: При коммите комментировать! Иначе все данные в таблицах сотрутся.
-    # await database.drop_tables()
+    await database.drop_tables()
 
     # Создание таблиц.
     await database.create_tables()
 
     # Рассылка сообщений администраторам.
-    await users.send_messages("Бот Включен!", rank=UserRankType.ADMIN)
+    await users.send_messages("Бот Включен!", role=UserRole.ADMIN)
 

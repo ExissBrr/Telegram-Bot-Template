@@ -2,7 +2,7 @@ from aiogram import Dispatcher
 from loguru import logger
 
 from utils.database_api import database
-from utils.database_api.schemes.user import UserRankType
+from utils.database_api.models.user import UserRole
 from utils.notify import users
 
 
@@ -13,7 +13,7 @@ async def on_shutdown(dispatcher: Dispatcher):
     """
 
     # Рассылка сообщений администраторам.
-    await users.send_messages("Бот Выключен!", rank=UserRankType.ADMIN)
+    await users.send_messages("Бот Выключен!", role=UserRole.ADMIN)
 
     # Отключение от базы данных.
     await database.unconnect()

@@ -2,7 +2,7 @@ from aiogram import types
 from loguru import logger
 
 from loader import BOT
-from utils.database_api.schemes.user import DBCommandsUser, UserRankType
+from utils.database_api.models.user import DBCommandsUser, UserRole
 
 
 async def send_copy_messages(message: types.Message, **kwargs):
@@ -20,7 +20,7 @@ async def send_copy_messages(message: types.Message, **kwargs):
         except Exception as err:
 
             # Пользователь помечается в базе, как пассивный
-            await user.update_rank(UserRankType.PASSIVE)
+            await user.update_rank(UserRole.PASSIVE)
 
             logger.error(f"ERROR {err}. Пользователю с ID {user.id} не удалось доставить "
                          f"копию сообщения с id {message.message_id} "
@@ -44,6 +44,6 @@ async def send_messages(text: str, **kwargs):
         except Exception as err:
 
             # Пользователь помечается в базе, как пассивный
-            await user.update_rank(UserRankType.PASSIVE)
+            await user.update_rank(UserRole.PASSIVE)
 
             logger.error(f"ERROR {err}. Пользователю с ID {user.id} не удалось доставить сообщение: {text}.")
