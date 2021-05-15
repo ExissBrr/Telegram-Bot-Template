@@ -1,5 +1,5 @@
 
-def rate_limit(limit: float, key: str = "default"):
+def rate_limit(limit: float, key: str = "inline"):
     """
     Декоратор для конфигурации ограничителя лимита и ключа функции
     :param limit: Лимит времени, который должен пройти,

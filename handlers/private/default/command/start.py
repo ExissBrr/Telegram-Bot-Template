@@ -14,7 +14,7 @@ from utils.misc import rate_limit
 @DP.message_handler(CommandStart(), NewUser())
 async def add_user_in_db(message: types.Message):
     """Добавление пользователя в базу данных."""
-    referral_id = 0 or message.get_args()
+    referral_id = message.get_args() or 0
 
     if referral_id and await DBCommandsUser.is_user(referral_id):
         referral_id = int(referral_id)

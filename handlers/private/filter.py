@@ -1,4 +1,4 @@
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 
 from data import text
 from data.config import DEFAULT_RATE_LIMIT
@@ -27,7 +27,8 @@ async def notify_blocked(message: Message, user: User):
             user_id=user.id,
             blocking_time=user.update_at,
             report_block=user.report_block,
-        )
+        ),
+        reply_markup=ReplyKeyboardRemove()
     )
 
 

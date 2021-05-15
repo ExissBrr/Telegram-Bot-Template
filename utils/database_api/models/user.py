@@ -124,7 +124,9 @@ def make_filter(
         full_name: str = None,
         username: str = None,
         report_block: str = None,
-        is_referred: int = None,
+        is_referred: bool = None,
+        is_active: bool = None,
+        is_blocked: bool = None,
 ):
     """Формирует фильтр для запроса в таблицу
     :param operator: OR: или, ADN: и
@@ -134,6 +136,8 @@ def make_filter(
     :param username:
     :param report_block:
     :param is_referred:
+    :param is_active:
+    :param is_blocked:
     :return:
     """
     conditions = []
@@ -157,6 +161,18 @@ def make_filter(
             conditions.append(User.referral_id != 0)
         else:
             conditions.append(User.referral_id == 0)
+
+    if is_active is not None:
+        if is_active:
+            conditions.append(User.role != UserRole.PASSIVE)
+        else:
+            conditions.append(User.role == UserRole.PASSIVE)
+
+    if is_blocked is not None:
+        if is_blocked:
+            conditions.append(User.role != UserRole.BLOCKED)
+        else:
+            conditions.append(User.role == UserRole.BLOCKED)
 
     if operator == "AND":
         return and_(*conditions)

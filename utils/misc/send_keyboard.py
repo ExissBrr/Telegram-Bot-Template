@@ -24,3 +24,5 @@ async def main_auto(message: Message, state: FSMContext = None):
             text=text.message.send_main_keyboard,
             reply_markup=reply.default.start.keyboard
         )
+
+send_main_keyboard

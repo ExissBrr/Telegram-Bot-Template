@@ -1,4 +1,4 @@
-from . import admin
-from . import default
+from . import inline
+from . import reply
 
-__all__ = ["admin", "default"]
+__all__ = ["reply", "inline"]

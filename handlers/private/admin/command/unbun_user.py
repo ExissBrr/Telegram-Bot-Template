@@ -29,7 +29,7 @@ async def block_user(message: types.Message):
         await message.answer("Пользователь итак разблокирован")
         return False
 
-    await user.update_rank(UserRole.DEFAULT)
+    await user.update_role(UserRole.DEFAULT)
     await message.answer("Пользователь разблокирован")
     await DP.bot.send_message(
         chat_id=user.id,

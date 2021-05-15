@@ -7,7 +7,7 @@ keyboard = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(
-                text=text.button.default.menu_info
+                text=text.button.reply.default.menu_info
             )
         ]
     ]

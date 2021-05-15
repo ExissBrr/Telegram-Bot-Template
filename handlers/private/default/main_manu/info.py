@@ -7,7 +7,7 @@ from utils.misc import rate_limit
 
 
 @rate_limit(DEFAULT_RATE_LIMIT)
-@DP.message_handler(text=text.button.default.menu_info)
+@DP.message_handler(text=text.button.reply.default.menu_info)
 async def send_info_menu(message: types.Message):
     """Отправка информационного меню пользователю."""
     await message.answer(

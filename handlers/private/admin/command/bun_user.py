@@ -19,7 +19,7 @@ async def block_user(message: types.Message):
             report = 'Не указана'
     except Exception as err:
         await message.answer("Ошибка! Попробуйте снова!")
-        logger.error(err)
+        logger.info(err)
         return False
 
     if not await DBCommandsUser.is_user(id=user_id):
@@ -35,7 +35,7 @@ async def block_user(message: types.Message):
         await message.answer("Пользователей с правами Администратора блокировать нельзя")
         return False
 
-    await user.update_rank(UserRole.BLOCKED)
+    await user.update_role(UserRole.BLOCKED)
     await user.update_report_block(report)
 
     await message.answer("Пользователь заблокирован")
