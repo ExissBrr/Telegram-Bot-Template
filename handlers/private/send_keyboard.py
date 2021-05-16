@@ -1,10 +1,7 @@
 from aiogram import types
 
 from data.config import DEFAULT_RATE_LIMIT
-from keyboards import reply
 from loader import DP
-from utils.database_api.models.user import User
-
 from utils.misc import rate_limit, send_keyboard
 
 

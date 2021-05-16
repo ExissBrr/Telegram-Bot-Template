@@ -2,6 +2,7 @@ class BadData(Exception):
     """Тип ошибки плохих данных"""
     pass
 
+
 class FailedGetUserId(BadData):
     """Не удалось получить id"""
 
