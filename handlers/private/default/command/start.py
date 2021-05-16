@@ -5,13 +5,13 @@ from data import text, link
 from data.config import DEFAULT_RATE_LIMIT
 from filters.private.role_user import NewUser
 from keyboards import reply
-from loader import DP
+from loader import dp
 from utils.database_api.models.user import DBCommandsUser, UserRole
 from utils.misc import rate_limit
 
 
 @rate_limit(DEFAULT_RATE_LIMIT)
-@DP.message_handler(CommandStart(), NewUser())
+@dp.message_handler(CommandStart(), NewUser())
 async def add_user_in_db(message: types.Message):
     """Добавление пользователя в базу данных."""
     referral_id = message.get_args() or 0

@@ -1,4 +1,4 @@
-from .panel import DP
+from .panel import dp
 
 
-__all__ = ["DP"]
+__all__ = ["dp"]

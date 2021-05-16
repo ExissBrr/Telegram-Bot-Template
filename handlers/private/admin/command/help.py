@@ -4,10 +4,10 @@ from aiogram.dispatcher.filters import CommandHelp
 from data import text
 from filters.private.role_user import Admin
 from keyboards import reply
-from loader import DP
+from loader import dp
 
 
-@DP.message_handler(Admin(), CommandHelp())
+@dp.message_handler(Admin(), CommandHelp())
 async def send_help_menu(message: types.Message):
     """Отправка справочника пользователю"""
     await message.answer(

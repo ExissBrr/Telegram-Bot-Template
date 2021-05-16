@@ -1,4 +1,4 @@
-from .command import DP
-from .main_manu import DP
+from .command import dp
+from .main_manu import dp
 
-__all__ = ["DP"]
+__all__ = ["dp"]

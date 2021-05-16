@@ -1,3 +1,3 @@
-from .info import DP
+from .info import dp
 
-__all__ = ["DP"]
+__all__ = ["dp"]

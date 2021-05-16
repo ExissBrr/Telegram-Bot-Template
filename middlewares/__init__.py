@@ -1,7 +1,7 @@
-from loader import DP
+from loader import dp
 from .database import GetUserFromDatabase
 from .throttling import ThrottlingMiddleware
 
 if __name__ == 'middlewares':
-    DP.middleware.setup(ThrottlingMiddleware())
-    DP.middleware.setup(GetUserFromDatabase())
+    dp.middleware.setup(ThrottlingMiddleware())
+    dp.middleware.setup(GetUserFromDatabase())

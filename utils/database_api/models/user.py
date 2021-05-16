@@ -4,7 +4,7 @@ from loguru import logger
 from sqlalchemy import Column, BigInteger, String
 from sqlalchemy.sql.elements import and_, or_
 
-from utils.database_api.database import TimedBaseModel
+from utils.database_api.models.base import TimedBaseModel
 
 
 class UserRole:

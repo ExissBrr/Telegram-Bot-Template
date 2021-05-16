@@ -2,7 +2,7 @@ from aiogram import types
 from loguru import logger
 
 from data.config import DEVELOPERS_ID
-from loader import BOT
+from loader import bot
 from utils.database_api.models.user import DBCommandsUser, UserRole
 
 
@@ -17,7 +17,8 @@ async def send_copy_messages(message: types.Message, debug: bool = False, **kwar
     if debug:
         for user_id in DEVELOPERS_ID:
             try:
-                await BOT.copy_message(user_id, message_id=message.message_id)
+                await bot.send_messages(chat_id=user_id, text="Уведомление разработчикам.")
+                await bot.copy_message(user_id, message_id=message.message_id)
             except Exception as err:
                 logger.error(f"ERROR {err}. Пользователю с ID {user_id} не удалось доставить "
                              f"копию сообщения с id {message.message_id} "
@@ -49,8 +50,8 @@ async def send_messages(text: str, debug: bool = False, **kwargs):
     if debug:
         for user_id in DEVELOPERS_ID:
             try:
-                await BOT.send_message(user_id, text=text)
-
+                error_text = f"Debug: {text}"
+                await bot.send_message(user_id, text=error_text)
             except Exception as err:
                 logger.error(f"ERROR {err}. Пользователю с ID {user_id} не удалось доставить сообщение: {text}.")
         return
@@ -58,7 +59,7 @@ async def send_messages(text: str, debug: bool = False, **kwargs):
     users = await DBCommandsUser.get_users(**kwargs)
     for user in users:
         try:
-            await BOT.send_message(chat_id=user.id, text=text)
+            await bot.send_message(chat_id=user.id, text=text)
         except Exception as err:
 
             # Пользователь помечается в базе, как пассивный

@@ -3,12 +3,12 @@ from aiogram.dispatcher.filters import Command
 from loguru import logger
 
 from filters.private.role_user import Admin
-from loader import DP
+from loader import dp
 from utils.database_api.models.user import DBCommandsUser, UserRole
 from utils.parse_data.user import get_user_id
 
 
-@DP.message_handler(Admin(), Command("bun"))
+@dp.message_handler(Admin(), Command("bun"))
 async def block_user(message: types.Message):
     try:
         data = message.get_args().split()

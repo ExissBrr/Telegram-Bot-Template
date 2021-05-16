@@ -3,12 +3,12 @@ from aiogram.dispatcher.filters import CommandSettings
 
 from data import text
 from data.config import DEFAULT_RATE_LIMIT
-from loader import DP
+from loader import dp
 from utils.misc import rate_limit
 
 
 @rate_limit(DEFAULT_RATE_LIMIT)
-@DP.message_handler(CommandSettings())
+@dp.message_handler(CommandSettings())
 async def send_settings_menu(message: types.Message):
     """Отправляет меню настройки аккаунта"""
     await message.answer(

@@ -1,5 +1,5 @@
-from .start import DP
-from .help import DP
-from .settings import DP
+from .start import dp
+from .help import dp
+from .settings import dp
 
-__all__ = ["DP"]
+__all__ = ["dp"]

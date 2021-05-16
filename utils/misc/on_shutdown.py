@@ -16,7 +16,7 @@ async def on_shutdown(dispatcher: Dispatcher):
     await users.send_messages("Бот Выключен!", role=UserRole.ADMIN)
 
     # Отключение от базы данных.
-    await database.unconnect()
+    await database.database_pop_bind()
 
     # Удаление команд бота
     await dispatcher.bot.set_my_commands([])

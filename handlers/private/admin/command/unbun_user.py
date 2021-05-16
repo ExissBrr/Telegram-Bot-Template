@@ -4,12 +4,12 @@ from loguru import logger
 
 from filters.private.role_user import Admin
 from keyboards import reply
-from loader import DP
+from loader import dp
 from utils.database_api.models.user import UserRole, DBCommandsUser
 from utils.parse_data.user import get_user_id
 
 
-@DP.message_handler(Admin(), Command("unbun"))
+@dp.message_handler(Admin(), Command("unbun"))
 async def block_user(message: types.Message):
     try:
         data = message.get_args().split()
@@ -31,7 +31,7 @@ async def block_user(message: types.Message):
 
     await user.update_role(UserRole.DEFAULT)
     await message.answer("Пользователь разблокирован")
-    await DP.bot.send_message(
+    await dp.bot.send_message(
         chat_id=user.id,
         text="С вас сняты ограничения",
         reply_markup=reply.default.start.keyboard

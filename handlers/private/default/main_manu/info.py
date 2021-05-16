@@ -2,12 +2,12 @@ from aiogram import types
 
 from data import text
 from data.config import DEFAULT_RATE_LIMIT
-from loader import DP
+from loader import dp
 from utils.misc import rate_limit
 
 
 @rate_limit(DEFAULT_RATE_LIMIT)
-@DP.message_handler(text=text.button.reply.default.menu_info)
+@dp.message_handler(text=text.button.reply.default.menu_info)
 async def send_info_menu(message: types.Message):
     """Отправка информационного меню пользователю."""
     await message.answer(

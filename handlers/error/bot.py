@@ -1,11 +1,11 @@
 from aiogram import types
 from loguru import logger
 
-from loader import DP
+from loader import dp
 from utils.notify.users import send_messages
 
 
-@DP.errors_handler()
+@dp.errors_handler()
 async def errors_logging(update: types.Update, exception):
     """
     Обработчик ошибок, вызванных самим ботом

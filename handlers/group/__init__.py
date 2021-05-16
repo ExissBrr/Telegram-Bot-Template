@@ -1,2 +1,2 @@
-from loader import DP
+from loader import dp
 

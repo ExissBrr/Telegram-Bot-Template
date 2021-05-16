@@ -1,3 +1,3 @@
-from .bot import DP
+from .bot import dp
 
-__all__ = ["DP"]
+__all__ = ["dp"]

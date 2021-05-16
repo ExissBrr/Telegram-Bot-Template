@@ -1,6 +1,6 @@
-from .private import DP
-from .error import DP
-from .group import DP
-from .channel import DP
+from .private import dp
+from .error import dp
+from .group import dp
+from .channel import dp
 
-__all__ = ["DP"]
+__all__ = ["dp"]

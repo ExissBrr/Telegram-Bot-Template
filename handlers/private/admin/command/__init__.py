@@ -1,6 +1,6 @@
-from .start import DP
-from .help import DP
-from .bun_user import DP
-from .unbun_user import DP
+from .start import dp
+from .help import dp
+from .bun_user import dp
+from .unbun_user import dp
 
-__all__ = ["DP"]
+__all__ = ["dp"]

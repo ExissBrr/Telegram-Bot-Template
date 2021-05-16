@@ -2,11 +2,11 @@ from aiogram.types import Message
 
 from data import text
 from filters.private.role_user import Admin
-from loader import DP
+from loader import dp
 from utils.database_api.models.user import DBCommandsUser
 
 
-@DP.message_handler(Admin(), text=text.button.reply.admin.menu_panel)
+@dp.message_handler(Admin(), text=text.button.reply.admin.menu_panel)
 async def send_admin_menu_panel(message: Message):
     """Отравляет панель администратору"""
     await message.answer(

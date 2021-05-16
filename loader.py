@@ -5,11 +5,11 @@ from gino import Gino
 
 from data.config import TOKEN_BOT
 
-DATABASE = Gino()
-STORAGE = MemoryStorage()
-BOT = Bot(token=TOKEN_BOT, parse_mode=ParseMode.HTML)
-DP = Dispatcher(bot=BOT, storage=STORAGE)
+database = Gino()
+storage = MemoryStorage()
+bot = Bot(token=TOKEN_BOT, parse_mode=ParseMode.HTML)
+dp = Dispatcher(bot=bot, storage=storage)
 
-__all__ = ["STORAGE", "BOT", "DP", "DATABASE"]
+__all__ = ["storage", "bot", "dp", "database"]
 
 

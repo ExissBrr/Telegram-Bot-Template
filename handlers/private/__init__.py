@@ -1,6 +1,6 @@
-from .filter import DP
-from .admin import DP
-from .default import DP
-from .send_keyboard import DP
+from .filter import dp
+from .admin import dp
+from .default import dp
+from .send_keyboard import dp
 
-__all__ = ["DP"]
+__all__ = ["dp"]

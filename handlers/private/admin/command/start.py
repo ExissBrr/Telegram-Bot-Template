@@ -4,11 +4,11 @@ from aiogram.dispatcher.filters import CommandStart
 from data import text
 from filters.private.role_user import Admin, NewUser
 from keyboards import reply
-from loader import DP
+from loader import dp
 from utils.database_api.models.user import DBCommandsUser, UserRole
 
 
-@DP.message_handler(Admin(), CommandStart(), NewUser())
+@dp.message_handler(Admin(), CommandStart(), NewUser())
 async def add_admin_in_db(message: types.Message):
     """Добавление админа в базу данных"""
     await DBCommandsUser.add_user(
